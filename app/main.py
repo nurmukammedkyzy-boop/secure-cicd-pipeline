@@ -15,7 +15,7 @@ logging.basicConfig(
 )
 
 API_ENV = os.getenv("APP_ENV", "development")
-SECRET_TOKEN = os.getenv("APP_SECRET_TOKEN", "not-set")
+SECRET_TOKEN = os.getenv("APP_SECRET_TOKEN")
 
 
 def is_valid_username(username):
@@ -100,7 +100,7 @@ def health_check():
 
 @app.route("/secure-info", methods=["GET"])
 def secure_info():
-    if SECRET_TOKEN == "not-set":
+    if not SECRET_TOKEN:
         logging.warning("Secret token is not configured")
         return jsonify({"error": "secret token is not configured"}), 500
 
